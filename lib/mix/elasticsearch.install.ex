@@ -40,11 +40,14 @@ defmodule Mix.Tasks.Elasticsearch.Install do
           Mix.raise("Unsupported system for elasticsearch: #{inspect(other)}")
       end
 
-    major_version = String.split(version, ".") |> hd
+    major_version = String.split(version, ".") |> hd |> String.to_integer()
 
-    if major_version < "7" do
-      name = "elasticsearch-#{version}"
-    end
+    name =
+      if major_version < 7 do
+        "elasticsearch-#{version}"
+      else
+        name
+      end
 
     tar = "#{name}.tar.gz"
 
